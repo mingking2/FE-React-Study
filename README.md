@@ -18,8 +18,8 @@ React Study - 리액트를 다루는 기술
 [이호준](https://github.com/hotteok00),
 [주민기](https://github.com/mingking2)
 
-<a href="https://github.com/asuan99/CS_interview_Study/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=BangDori/FE-JavaScript-Study" />
+<a href="https://github.com/mingking2/FE-React-Study/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mingking2/FE-React-Study" />
 </a>
 
 <br />
@@ -33,5 +33,3 @@ React Study - 리액트를 다루는 기술
 
 <br />
 
-- 23.04.20 ~ 23.04.26 중간고사 시험 기간
-- 23.06.14 ~ 23.06.20 기말고사 시험 기간
