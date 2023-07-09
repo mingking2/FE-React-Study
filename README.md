@@ -8,7 +8,7 @@ React Study - 리액트를 다루는 기술
 - 진행 시간: 격주 일요일
 - 진행 방식: 격주에 한번 보고서 및 코드 작성
 - 이론 공유: [Github Issue](https://github.com/mingking2/FE-React-Study/issues)
-- 주간 회고: [Notion](https://bangdori.notion.site/Deep-Dive-7718d9f8402c4283815694fa211329d8)
+- 주간 회고: [Notion](https://bangdori.notion.site/e4044b84ccb74c36bbd8f226a16646b1)
 
 ### 스터디원
 [강병준](https://github.com/BangDori),
