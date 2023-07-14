@@ -78,7 +78,7 @@ Counter.defaultProps = {
 Counter.propTypes = {
     time: PropTypes.number.isRequired
 }
-//컴포넌트를 재활용 하게 된다면 적용한다면 활용 할 것 현재 코드에서는 필요 없음.
+//컴포넌트를 재활용 하게 된다면 활용 할 것. 현재 코드에서는 필요 없음.
 */
 export default Counter;
 
