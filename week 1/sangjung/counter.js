@@ -32,7 +32,7 @@ const Counter = props => {
                     <input 
                         type="text" 
                         className="input-time" 
-                        onClick = { () => clearInterval(timer)}
+                        onClick = { () => setTimer(clearInterval(timer))}
                         onKeyDown={ (e) => keyDownInput(e,time,setTime)}
                         onChange={()=>{}} //에러로그를 없애기 위한 코드 의미 없음.
                         value={pTime}
@@ -41,18 +41,22 @@ const Counter = props => {
                         <ul className="buttons">
                             <li>
                                 <button
-                                onClick={()=>setTimer(startTimer(setTime))}
+                                onClick={()=>{
+                                    if(!timer){
+                                        setTimer(startTimer(setTime));
+                                    }
+                                }}
                                 >START</button>
                             </li>
                             <li>
                                 <button
-                                onClick={()=>clearInterval(timer)}
+                                onClick={()=>setTimer(clearInterval(timer))}
                                 >PAUSE</button>
                             </li>
                             <li>
                                 <button
                                 onClick={()=>{
-                                    clearInterval(timer);
+                                    setTimer(clearInterval(timer));
                                     setTime(0);
                                 }}>STOP</button>
                             </li>
