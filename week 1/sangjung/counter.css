@@ -1,0 +1,74 @@
+body{
+    width:100%;
+    height:100%;
+    margin:0px;
+    padding:0px;
+}
+div{
+    padding: 0px;
+    margin:0px;
+}
+header, footer{
+    width : 100%;
+    padding-top:20vh;
+    background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253));
+}
+.wrap{
+    width:100%;
+}
+.container{
+    width:100%;
+    height:60vh;
+    position: relative;
+}
+.timer{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+.input-time{
+    padding:0px;
+    margin:0px;
+    border: 0px solid black;
+    width:60vw;
+    font-size:15vw;
+    background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+}
+.input-time:focus-visible{
+    outline:0px;
+}
+
+.timer-bottom{
+    height:10vh;
+    position: relative;
+}
+.buttons{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+ul{
+    margin:0px;
+    padding:0px;
+    list-style-type: none;
+}
+ul > li{
+    margin:0px;
+    padding:0px;
+    float:left;
+}
+ul > li:nth-child(2){
+    margin: 0vw 3vw 0vw 3vw;
+}
+ul > li > button{
+    border:2px solid rgb(157, 211, 215);
+    border-radius: 10px;
+    font-size:2vw;
+    background-color: rgb(187, 241, 255);
+}
