@@ -6,23 +6,23 @@ const Timer = () => {
   const [isRunning, setIsRunning] = useState(false);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (isRunning) {
+    let timer;
+    if (isRunning) {
+      timer = setInterval(() => {
+        console.log("웹 실행 시 연산 확인");
         if (seconds > 0) {
           secTime(seconds - 1);
-        }
-        if (seconds === 0) {
+        } else {
           if (minutes === 0) {
             clearInterval(timer);
             setIsRunning(true);
-          } 
-          else {
+          } else {
             minTime(minutes - 1);
             secTime(59);
           }
         }
-      }
-    }, 1000);
+      }, 1000);
+    }
 
     return () => clearInterval(timer);
   }, [minutes, seconds, isRunning]);
@@ -31,10 +31,7 @@ const Timer = () => {
     setIsRunning(true);
   };
 
-  const onClickPause = (props) => {
-    setIsRunning(false);
-  };
-
+  const onClickPause = () => setIsRunning(false);
   const onClickEnter = () => {
     minTime(1);
     secTime(0);
