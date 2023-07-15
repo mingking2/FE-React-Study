@@ -9,7 +9,6 @@ const Timer = () => {
     let timer;
     if (isRunning) {
       timer = setInterval(() => {
-        console.log("웹 실행 시 연산 확인");
         if (seconds > 0) {
           secTime(seconds - 1);
         } else {
