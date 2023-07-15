@@ -9,7 +9,7 @@
 */
 
 
-import "./counter.css";
+import "./timer.css";
 //import PropTypes from 'prop-types';
 import { useState } from "react";
 
