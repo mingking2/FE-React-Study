@@ -12,10 +12,7 @@ const Timer = () => {
         if (seconds > 0) {
           secTime(seconds - 1);
         } else {
-          if (minutes === 0) {
-            clearInterval(timer);
-            setIsRunning(true);
-          } else {
+          if (minutes > 0) {
             minTime(minutes - 1);
             secTime(59);
           }
