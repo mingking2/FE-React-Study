@@ -97,6 +97,7 @@ const keyDownInput = (e, time, setTime) =>{
 }
 
 const startTimer = (setTime) =>{
+    setTime((time) => time - 1);
     const timer = setInterval(() =>{
         setTime((time) => {
             if(time <= 0){
