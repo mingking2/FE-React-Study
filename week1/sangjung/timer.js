@@ -16,6 +16,7 @@ import { useState } from "react";
 const MAX_TIME = 599999;
 
 const Counter = props => {
+    const [inputTime, setInputTime] = useState(6000);
     const [time, setTime] = useState(6000);
     const [timer, setTimer] = useState();
     /*
@@ -50,6 +51,12 @@ const Counter = props => {
         }
     }
 
+    //stop버튼 클릭 시 입력 시간으로 되돌리기.
+    const closeInput = () => {
+        console.log(1);
+        setInputTime(time);
+    }
+
     //타이머 시작
     const startTimer = () =>{
         if(!timer && time > 0){
@@ -57,6 +64,7 @@ const Counter = props => {
             const newTimer = setInterval(() =>{
                 setTime((time) => {
                     if(time <= 0){
+                        setInputTime(0);
                         clearInterval(newTimer);
                         return 0;
                     }
@@ -75,7 +83,7 @@ const Counter = props => {
     //타이머 중지 시간 초기화
     const stopTimer = () => {
         pauseTimer();
-        setTime(0);
+        setTime(inputTime);
     }
     
     return (
@@ -91,6 +99,7 @@ const Counter = props => {
                         onClick = {pauseTimer}
                         onKeyDown={inputText}
                         onChange={()=>{}} //에러로그를 없애기 위한 코드 의미 없음.
+                        onBlur={closeInput}
                         value={pTime}
                     />
                     <div className="timer-bottom">
@@ -123,10 +132,12 @@ const Counter = props => {
 
 /*
 Counter.defaultProps = {
-    time: 6000
+    time: 6000,
+    inputTime: 0
 };
 Counter.propTypes = {
-    time: PropTypes.number.isRequired
+    time: PropTypes.number.isRequired,
+    inputTime: PropTypes.number.isRequired
 }
 //컴포넌트를 재활용 하게 된다면 활용 할 것. 현재 코드에서는 필요 없음.
 */
