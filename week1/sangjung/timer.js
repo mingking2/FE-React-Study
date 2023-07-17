@@ -18,10 +18,66 @@ const MAX_TIME = 599999;
 const Counter = props => {
     const [time, setTime] = useState(6000);
     const [timer, setTimer] = useState();
-    const min = (Math.floor(time / 6000) || 0) + '';
-    const sec = (Math.floor(time / 100) % 60 || 0) + '';
-    const microSec = (time % 100 || 0) + '';
-    const pTime = min.padStart(2, '0') + ':' + sec.padStart(2, '0') + ':' +microSec.padStart(2, '0');
+    /*
+    const min = (Math.floor(time / 6000)).toString();
+    const sec = (Math.floor(time / 100)).toString();
+    const microSec = (time % 100).toString();
+    const pTime = `${min.padStart(2,'0')}:${sec.padStart(2, '0')}:${microSec.padStart(2, '0')}`;
+    */
+    const pTime = `${ //위의 코드를 따름
+            (Math.floor(time / 6000)).toString()
+                .padStart(2,'0')
+        }:${
+            (Math.floor(time / 100) % 60).toString()
+                .padStart(2, '0')
+        }:${
+            (time % 100).toString()
+                .padStart(2, '0')
+        }`;
+
+    //인풋 태그 입력시 숫자만 입력 받게
+    const inputText = (e) => {
+        const value = e.key;
+        if (value === "Backspace"){
+            //let temp = String(time); 
+            //temp = temp.slice(0,temp.length-1);
+            //setTime(Number(temp));
+            //밑의 코드는 위의 과정을 따름
+            setTime(Number(String(time).slice(0,String(time).length-1)));
+        }else if (value.match(/^\d$/g)){
+            const temp = Number(time+value);
+            temp > MAX_TIME ? setTime(MAX_TIME):setTime(temp);
+        }
+    }
+
+    //타이머 시작
+    const startTimer = () =>{
+        if(!timer && time > 0){
+            setTime((time) => time - 1);
+            const newTimer = setInterval(() =>{
+                setTime((time) => {
+                    if(time <= 0){
+                        clearInterval(newTimer);
+                        return 0;
+                    }
+                    return time -1;
+                });
+            }, 10);
+            setTimer(newTimer);
+        }
+    }
+
+    //타이머 일시 중지
+    const pauseTimer = () => {
+        setTimer(clearInterval(timer));
+    }
+
+    //타이머 중지 시간 초기화
+    const stopTimer = () => {
+        pauseTimer();
+        setTime(0);
+    }
+    
     return (
         <div className="wrap">
             <header>
@@ -32,8 +88,8 @@ const Counter = props => {
                     <input 
                         type="text" 
                         className="input-time" 
-                        onClick = { () => setTimer(clearInterval(timer))}
-                        onKeyDown={ (e) => keyDownInput(e,time,setTime)}
+                        onClick = {pauseTimer}
+                        onKeyDown={inputText}
                         onChange={()=>{}} //에러로그를 없애기 위한 코드 의미 없음.
                         value={pTime}
                     />
@@ -41,24 +97,18 @@ const Counter = props => {
                         <ul className="buttons">
                             <li>
                                 <button
-                                onClick={()=>{
-                                    if(!timer){
-                                        setTimer(startTimer(setTime));
-                                    }
-                                }}
+                                onClick={startTimer}
                                 >START</button>
                             </li>
                             <li>
                                 <button
-                                onClick={()=>setTimer(clearInterval(timer))}
+                                onClick={pauseTimer}
                                 >PAUSE</button>
                             </li>
                             <li>
                                 <button
-                                onClick={()=>{
-                                    setTimer(clearInterval(timer));
-                                    setTime(0);
-                                }}>STOP</button>
+                                onClick={stopTimer}
+                                >STOP</button>
                             </li>
                         </ul>
                     </div>
@@ -82,30 +132,3 @@ Counter.propTypes = {
 */
 export default Counter;
 
-const keyDownInput = (e, time, setTime) =>{
-    const value = e.key;
-    if (value === "Backspace"){
-        //let temp = String(time); 
-        //temp = temp.slice(0,temp.length-1);
-        //setTime(Number(temp));
-        //밑의 코드는 위의 과정을 따름
-        setTime(Number(String(time).slice(0,String(time).length-1)));
-    }else if (value.replace(/\D/g,'')){
-        const temp = Number(time+value);
-        temp > MAX_TIME ? setTime(MAX_TIME):setTime(temp);
-    }
-}
-
-const startTimer = (setTime) =>{
-    setTime((time) => time - 1);
-    const timer = setInterval(() =>{
-        setTime((time) => {
-            if(time <= 0){
-                clearInterval(timer);
-                return 0;
-            }
-            return time -1;
-        });
-    }, 10);
-    return timer;
-}
