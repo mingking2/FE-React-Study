@@ -1,15 +1,14 @@
-import TimerUi from './timer';
-import {TimerSet} from './timer';
-import './App.css';
+import { Timer } from "./Timer";
+import TimerUi from "./TimerUi";
+import "./App.css";
 
-
-function App() {
+const App = () => {
   return (
     <div className="App">
-        <TimerUi name="김승제" ></TimerUi>
-        <TimerSet></TimerSet>
+      <TimerUi name="김승제"></TimerUi>
+      <Timer></Timer>
     </div>
   );
-}
+};
 
 export default App;
