@@ -43,6 +43,7 @@ class TimerApp extends Component {
     //컴포넌트가 mount 될때 비동기 처리를 하기 위한 method
     componentDidMount() {
         window.addEventListener('resize',this.handleResize);
+        this.handleResize();
     }
 
 
