@@ -1,0 +1,19 @@
+.timer-container{
+    .input-text-groups > div > *{
+        font-size:10em;
+    }
+    
+    .input-text{
+        width:100%;
+        margin:0px;
+        border: 0px solid black;
+        color: transparent;
+        background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+    }
+    
+    .input-text{
+        outline:0px;
+    }
+}
