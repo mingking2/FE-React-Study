@@ -47,11 +47,20 @@ class TimerDisplay extends Component {
                     if(preyState.time.microSec <= 0){
                         if(preyState.time.sec <= 0){
                             if(preyState.time.min <= 0){
-                                return {time:{
-                                    min:0,
-                                    sec:0,
-                                    microSec: 0
-                                }};
+                                this.props.setTimerIsRunning(false);
+                                return {
+                                    time:{
+                                        min:0,
+                                        sec:0,
+                                        microSec: 0
+                                    },
+                                    timer: clearInterval(newTimer),
+                                    inputTime:{
+                                        min:0,
+                                        sec:0,
+                                        microSec: 0
+                                    },
+                                };
                             }else{
                                 return {time:{
                                     min:preyState.time.min - 1,
@@ -72,16 +81,7 @@ class TimerDisplay extends Component {
                             microSec: preyState.time.microSec -1
                         }};
                     }
-                },
-                ()=>{
-                    this.setState((preyState) => {
-                        if (preyState.time.sec === 0 && preyState.time.min === 0 && preyState.time.microSec === 0){
-                            this.props.setTimerIsRunning(false);
-                            return {timer: clearInterval(newTimer)};
-                        }
-                    })
-                }
-                );
+                },);
             }, 10);
             this.props.setTimerIsRunning(true);
             this.setState({timer:newTimer});
