@@ -1,0 +1,110 @@
+.timer-container{
+    min-width:100px;
+    min-height:100px;
+
+    width:100%;
+    padding-top: 100%;
+    position: relative;
+
+    .timer{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 90%;
+    }
+
+    .input-text-groups{
+        width:100%;
+        padding:0px;
+        margin:0px;
+        margin-bottom:10%;
+        background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+    }
+
+    .input-text-groups > div {
+        padding:0px;
+        margin:0px;
+    }
+
+    .input-text-groups > div:nth-child(2n-1) {
+        width:25%;
+    }
+
+    .input-text-groups > div:nth-child(2n) {
+        width:10%;
+    }
+
+    .input-text-groups > div > *{
+        font-size:10em;
+    }
+
+    .input-text{
+        width:100%;
+        margin:0px;
+        border: 0px solid black;
+        color: transparent;
+        background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; 
+    }
+    
+    .input-text{
+        outline:0px;
+    }
+
+    .timer-bottom{
+        width:100%;
+        position: relative;
+    }
+
+    .buttons{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size:100%;
+    }
+
+    .btn{
+        font-size:1em;
+    }
+
+    .circle-container{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 100%;
+        z-index: -1;
+    }
+    
+    .circle{
+        width:100%;
+        padding-bottom:100%;
+        border-radius: 50%;
+        outline: 0px dotted rgb(63, 63, 252);
+        transition-duration:  1000ms;
+    }
+    
+    .rotate-circle{
+        outline: 5px dotted rgb(63, 63, 253);
+        animation: rotate 15s linear infinite;
+    }
+
+}
+
+@keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+
