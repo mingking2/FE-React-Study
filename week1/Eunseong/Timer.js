@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import "./timer.css";
 
-function Timer() {
+const Timer = () => {
   const [min, setMin] = useState(1);
   const [sec, setSec] = useState(0);
-  const [ten_milsec, setTenMilsec] = useState(0)
+  const [ten_milsec, setTenMilsec] = useState(0);
   const [timer, setTimer] = useState(null);
 
   const startTimer = () => {
-    let m = min;
-    let s = sec;
-    let tms = ten_milsec;
+    var m = min;
+    var s = sec;
+    var tms = ten_milsec;
     setTimer(setInterval(() => {
       if (tms <= 0) {
         if (s <= 0) {
@@ -30,15 +30,15 @@ function Timer() {
       setMin(m);
     }, 10));
   }
-
-
+  var time = `${min.toString().padStart(2, "0")}:${sec.toString().padStart(2, "0")}:${ten_milsec.toString().padStart(2, "0")}`
+  
   return (
     <div className='back'>
       <div className='timer-app'>
 
         {/* time */}
         <div className="time">
-          {min.toString().padStart(2, "0")}:{sec.toString().padStart(2, "0")}:{ten_milsec.toString().padStart(2, "0")}
+          {time}
         </div>
 
         {/* btns */}
