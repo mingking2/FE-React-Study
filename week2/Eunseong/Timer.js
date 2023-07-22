@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 // Library : MUI 
 import {Paper, Container, IconButton} from '@mui/material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
@@ -14,11 +14,11 @@ const Timer = () => {
   const [sec, setSec] = useState(0);
   const [ten_milsec, setTenMilsec] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const timer = useRef(null);
 
   useEffect(() => {
-    var timer;
     if (isRunning) {
-      timer = setInterval(() => {
+      timer.current = setInterval(() => {
         if (ten_milsec > 0) {
           setTenMilsec(ten_milsec - 1);
         } else {
@@ -37,7 +37,7 @@ const Timer = () => {
         }
       }, 10);
     }
-    return () => { clearInterval(timer); }
+    return () => { clearInterval(timer.current); }
   }, [isRunning, ten_milsec, sec, min]);
 
   const minAddHandle = () => {
@@ -112,7 +112,7 @@ const Timer = () => {
 
 
   return (
-    <Container maxWidth="md" className='timer-app'>
+    <Container maxWidth="md">
 
       {/* Time Area Start*/}
       <Paper style={Styles.timeArea} elevation={6}>
