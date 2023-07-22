@@ -39,3 +39,16 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
 }
+.strange{
+    width:100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -190%);
+    text-align: center;
+    z-index: -15;
+}
+.strange-text{
+    font-size:15em;
+    color: rgb(218, 172, 248); 
+}

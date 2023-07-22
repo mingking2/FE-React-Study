@@ -8,7 +8,7 @@
         margin:0px;
         border: 0px solid black;
         color: transparent;
-        background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+        background: linear-gradient(to right, rgb(244, 233, 252), rgb(218, 172, 248)); 
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent; 
     }

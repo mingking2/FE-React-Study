@@ -1,125 +1,138 @@
-import {Component} from 'react';
+import {useState, useEffect, forwardRef} from 'react';
 import PropTypes from 'prop-types';
 
 import {Row, Col} from 'react-bootstrap';
 
 import './TimerDisplay.css';
 
-class TimerDisplay extends Component {
+const TimerDisplay = forwardRef((props,ref) => {
+    const [inputTime, setInputTime] = useState({min:1, sec:0,microSec:0});
+    const [time,setTime] = useState({min:1, sec:0,microSec:0});
+    const [timer,setTimer] = useState();
+    const [error, setError] = useState(false);
 
-    state = {
-        inputTime: {min:1, sec:0,microSec:0},
-        time: {min:1, sec:0,microSec:0},
-        timer: null,
-        error: false
-    };
+    const min = time.min.toString().padStart(2, '0');
+    const sec = time.sec.toString().padStart(2, '0');
+    const microSec = time.microSec.toString().padStart(2, '0');
+    const errorTag = error ? props.asdf.value : <></>;
+
+    useEffect(() => {
+        switch (props.buttonAction) {
+            case 'START':
+                startTimer();
+                break;
+            case 'STOP':
+                stopTimer();
+                break;
+            case 'PAUSE':
+                pauseTimer();
+                break;
+            case 'ERROR': 
+                causeError();
+                break;
+            default:
+                break;
+        }
+    });
 
     //인풋 태그 입력시 숫자만 입력 받게
-    handleInputText = (e) => {
+    const handleInputText = (e) => {
         const key = e.key;
         const name = e.target.name;
 
         if (key === "Backspace") {
-            const time = Math.floor(this.state.time[name] / 10);
-            const obj = {...this.state.time}
-            obj[name] = time;
-            this.setState({time: obj });
-            this.setState({inputTime: obj});
+            const _time = Math.floor(time[name] / 10);
+            const obj = {...time}
+            obj[name] = _time;
+            setTime(obj);
+            setInputTime(obj);
         }else if(key.match(/^\d$/g)){
-            let temp = Number(this.state.time[name] + key);
+            let temp = Number(time[name] + key);
             if(name === 'sec' && temp > 60){
                 temp = 59;
             }else if(temp > 99){
                 temp = 99;
             }
-            const obj = {...this.state.time}
+            const obj = {...time}
             obj[name] = temp;
-            this.setState({time: obj });
-            this.setState({inputTime: obj});
+            setTime(obj);
+            setInputTime(obj);
         }
     }
 
     //타이머 시작
-    startTimer = () =>{
-        if(!this.state.timer && (this.state.time.min !== 0 || this.state.time.sec !== 0 || this.state.time.microSec || 0)){
+    const startTimer = () =>{
+        if(!timer && (time.min !== 0 || time.sec !== 0 || time.microSec || 0)){
             const newTimer = setInterval(() =>{
-                this.setState((preyState) => {
-                    if(preyState.time.microSec <= 0){
-                        if(preyState.time.sec <= 0){
-                            if(preyState.time.min <= 0){
-                                this.props.setTimerIsRunning(false);
+                setTime((preyTime) => {
+                    if(preyTime.microSec <= 0){
+                        if(preyTime.sec <= 0){
+                            if(preyTime.min <= 0){
+                                props.setTimerIsRunning(false);
+                                setInputTime({
+                                    min:0,
+                                    sec:0,
+                                    microSec: 0
+                                });
+                                setTimer(clearInterval(newTimer));
                                 return {
-                                    time:{
-                                        min:0,
-                                        sec:0,
-                                        microSec: 0
-                                    },
-                                    timer: clearInterval(newTimer),
-                                    inputTime:{
-                                        min:0,
-                                        sec:0,
-                                        microSec: 0
-                                    },
+                                    min:0,
+                                    sec:0,
+                                    microSec: 0
                                 };
                             }else{
-                                return {time:{
-                                    min:preyState.time.min - 1,
+                                return {
+                                    min:preyTime.min - 1,
                                     sec:59,
                                     microSec: 99
-                                }};
+                                };
                             }
                         }else{
-                            return {time:{
-                                ...preyState.time,
-                                sec: preyState.time.sec -1,
+                            return {
+                                ...preyTime,
+                                sec: preyTime.sec -1,
                                 microSec: 99
-                            }};
+                            };
                         }
                     }else{
-                        return {time:{
-                            ...preyState.time,
-                            microSec: preyState.time.microSec -1
-                        }};
+                        return {
+                            ...preyTime,
+                            microSec: preyTime.microSec -1
+                        };
                     }
                 },);
             }, 10);
-            this.props.setTimerIsRunning(true);
-            this.setState({timer:newTimer});
+            props.setTimerIsRunning(true);
+            setTimer(newTimer);
         }
     }
     //타이머 일시 중지
-    pauseTimer = () => {
-        this.props.setTimerIsRunning(false);
-        this.setState({timer:clearInterval(this.state.timer)});
+    const pauseTimer = () => {
+        props.setTimerIsRunning(false);
+        setTimer(clearInterval(timer));
     }
 
     //타이머 중지 시간 입력값으로 초기화
-    stopTimer = () => {
-        this.pauseTimer();
-        this.setState({time:{...this.state.inputTime}});
+    const stopTimer = () => {
+        pauseTimer();
+        setTime(inputTime);
     }
 
-    causeError = () => {
-        this.setState({error:true});
+    const causeError = () => {
+        setError(true);
     }
 
-
-    render(){
-        const min = this.state.time.min.toString().padStart(2, '0');
-        const sec = this.state.time.sec.toString().padStart(2, '0');
-        const microSec = this.state.time.microSec.toString().padStart(2, '0');
-        const errorTag = this.state.error ? this.props.asdf.value : <></>;
-
+    try{
         return (
-            <Row  className="justify-content-md-center input-text-groups">
+            <Row ref={ref} className="justify-content-md-center input-text-groups">
                 {errorTag}
                 <Col md="auto">
                     <input 
                         name="min" 
                         value={min} 
-                        onClick={this.pauseTimer}
+                        onClick={pauseTimer}
                         onChange={()=>{}} 
-                        onKeyDown={this.handleInputText}
+                        onKeyDown={handleInputText}
                         className="input-text"
                     />
                 </Col>
@@ -130,9 +143,9 @@ class TimerDisplay extends Component {
                     <input 
                         name="sec" 
                         value={sec} 
-                        onClick={this.pauseTimer}
+                        onClick={pauseTimer}
                         onChange={()=>{}} 
-                        onKeyDown={this.handleInputText}
+                        onKeyDown={handleInputText}
                         className="input-text"
                     />
                 </Col>
@@ -143,16 +156,25 @@ class TimerDisplay extends Component {
                     <input 
                         name="microSec" 
                         value={microSec} 
-                        onClick={this.pauseTimer}
+                        onClick={pauseTimer}
                         onChange={()=>{}} 
-                        onKeyDown={this.handleInputText}
+                        onKeyDown={handleInputText}
                         className="input-text"
                     />
                 </Col>
             </Row>
         );
-    }
-}
+    }catch(e) {
+        console.log(e);
+        return (
+            <div className='error-box'>
+                <span> !Timer Error! </span>
+            </div>
+        );
+    };
+ 
+});
+
 
 TimerDisplay.propTypes = {
     time: PropTypes.shape({min:PropTypes.number.isRequired, sec:PropTypes.number.isRequired, microSec:PropTypes.number.isRequired}).isRequired,

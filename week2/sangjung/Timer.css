@@ -20,7 +20,7 @@
         padding:0px;
         margin:0px;
         margin-bottom:10%;
-        background: linear-gradient(to right, rgb(187, 241, 255), rgb(110, 110, 253)); 
+        background: linear-gradient(to right, rgb(244, 233, 252), rgb(218, 172, 248)); 
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent; 
     }
@@ -70,12 +70,12 @@
         width:100%;
         padding-bottom:100%;
         border-radius: 50%;
-        outline: 0px dotted rgb(63, 63, 252);
+        outline: 0px dotted  rgb(218, 172, 248);
         transition-duration:  1000ms;
     }
     
     .rotate-circle{
-        outline: 5px dotted rgb(63, 63, 253);
+        outline: 5px dotted rgb(218, 172, 248);
         animation: rotate 15s linear infinite;
     }
 

@@ -26,14 +26,17 @@
         .col{
             float:left;
             width:20%;
-            background-color: rgba(11, 11, 255, 0.1); 
-            transition-duration:  1000ms;
+            background-color: rgb(223, 175, 255); 
             outline: 0px solid white;
+            z-index: 100;
+            transition-duration:  100ms;
         }
 
         .start-timer{
-            scale: 0.95 0.8 ;
+            transition-duration:  1000ms;
+            scale: 0.90 0.7 ;
             outline: 1px solid white;
             border-radius: 10px;
+            z-index: -100;
         }
 }
