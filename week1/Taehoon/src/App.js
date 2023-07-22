@@ -1,3 +1,4 @@
+import React from 'react';
 import Timer from './timer';
 function App() {
   return (
