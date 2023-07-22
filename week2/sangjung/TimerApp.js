@@ -17,7 +17,7 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './TimerApp.css';
 
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {Container, Row, Col} from 'react-bootstrap';
@@ -28,8 +28,6 @@ import TimerAction from './TimerAction';
 const TimerApp = (props) => {
     const [timerIsRunning, setTimerIsRunning] = useState(false);
     const [fontSize, setFontSize] = useState('');
-    const [timeText, setTimeText] = useState('');
-    const time = useRef();
 
     //timer-box size에 따라 timer의 font size 변경
     const handleResize = () => {
@@ -43,17 +41,6 @@ const TimerApp = (props) => {
         handleResize();
     },[]);
 
-    useEffect(()=>{
-        if(timerIsRunning){
-            const min = time.current.children[0].children[0].value;
-            const sec = time.current.children[2].children[0].value;
-            const microSec = time.current.children[4].children[0].value;
-            const text = `${min}:${sec}:${microSec}`;
-            setTimeText(text);
-        }else{
-            setTimeText('');
-        }
-    },[timerIsRunning]);
 
     return (
         <Container>
@@ -66,10 +53,7 @@ const TimerApp = (props) => {
                 <Col>
                     <div className="box" style={{fontSize}}>
                         <div className="timer-box" >
-                        <Timer ref={time} setTimerIsRunning={setTimerIsRunning}/>
-                        </div>
-                        <div className='strange'>
-                            <span className='strange-text'>{timeText}</span>
+                        <Timer setTimerIsRunning={setTimerIsRunning}/>
                         </div>
                     </div>
                 </Col>

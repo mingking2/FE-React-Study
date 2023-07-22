@@ -1,4 +1,4 @@
-import {useState, useEffect, forwardRef} from 'react';
+import {useState, forwardRef, useEffect} from 'react';
 import PropTypes from 'prop-types';
 
 import {Row, Col} from 'react-bootstrap';
@@ -15,26 +15,7 @@ const TimerDisplay = forwardRef((props,ref) => {
     const sec = time.sec.toString().padStart(2, '0');
     const microSec = time.microSec.toString().padStart(2, '0');
     const errorTag = error ? props.asdf.value : <></>;
-
-    useEffect(() => {
-        switch (props.buttonAction) {
-            case 'START':
-                startTimer();
-                break;
-            case 'STOP':
-                stopTimer();
-                break;
-            case 'PAUSE':
-                pauseTimer();
-                break;
-            case 'ERROR': 
-                causeError();
-                break;
-            default:
-                break;
-        }
-    });
-
+    
     //인풋 태그 입력시 숫자만 입력 받게
     const handleInputText = (e) => {
         const key = e.key;
@@ -62,19 +43,19 @@ const TimerDisplay = forwardRef((props,ref) => {
 
     //타이머 시작
     const startTimer = () =>{
-        if(!timer && (time.min !== 0 || time.sec !== 0 || time.microSec || 0)){
+        pauseTimer();
+        if(time.min !== 0 || time.sec !== 0 || time.microSec !== 0){
             const newTimer = setInterval(() =>{
                 setTime((preyTime) => {
                     if(preyTime.microSec <= 0){
                         if(preyTime.sec <= 0){
                             if(preyTime.min <= 0){
-                                props.setTimerIsRunning(false);
                                 setInputTime({
                                     min:0,
                                     sec:0,
                                     microSec: 0
                                 });
-                                setTimer(clearInterval(newTimer));
+                                setTimer((timer) => clearInterval(timer));
                                 return {
                                     min:0,
                                     sec:0,
@@ -102,14 +83,12 @@ const TimerDisplay = forwardRef((props,ref) => {
                     }
                 },);
             }, 10);
-            props.setTimerIsRunning(true);
             setTimer(newTimer);
         }
     }
     //타이머 일시 중지
     const pauseTimer = () => {
-        props.setTimerIsRunning(false);
-        setTimer(clearInterval(timer));
+        setTimer((timer) => clearInterval(timer));
     }
 
     //타이머 중지 시간 입력값으로 초기화
@@ -118,9 +97,26 @@ const TimerDisplay = forwardRef((props,ref) => {
         setTime(inputTime);
     }
 
+    //에럽 발생
     const causeError = () => {
         setError(true);
     }
+
+    //ref 전달
+    useEffect(() => {
+        ref.current = {
+            startTimer,
+            pauseTimer,
+            stopTimer,
+            causeError,
+        };
+
+    },[]);
+
+    //timer 바뀔때마다 props에 값 전달
+    useEffect(() => {
+        timer ? props.setTimerIsRunning(true) : props.setTimerIsRunning(false);
+    },[timer])
 
     try{
         return (
