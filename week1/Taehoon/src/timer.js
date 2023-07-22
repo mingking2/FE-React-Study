@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: row;
-
+  flex-direction: column;
 `;
 
 const Button = styled.button`
@@ -38,7 +37,7 @@ const TimerInput = styled.h1`
     font-size: 2rem;
     padding: 0;
     margin: 0;
-    border: none;
+    border-bottom: 2px solid black;
     background-color: transparent;
     outline: none;
     text-align: right;
@@ -76,7 +75,14 @@ const Timer = () => {
           if (minutes > 0) {
             minTime(minutes - 1);
             secTime(59);
+          } else {
+            if (hours > 0) {
+              secTime(59);
+              minTime(59);
+              hourTime(hours - 1);
+            }
           }
+          //hour추가
         }
       }, 1000);
     }
@@ -85,15 +91,27 @@ const Timer = () => {
   }, [minutes, seconds, isRunning]);
 
   const onClickStart = () => {
-    if (!hourRef.current.value || !minuteRef.current.value || !secondRef.current.value) {
-      alert('시간, 분, 초를 모두 입력해주세요.');
-      return;
+    try {
+      const hTime = hourRef.current.value;
+      const mTime = minuteRef.current.value;
+      const sTime = secondRef.current.value;
+      if (mTime > 59 || sTime > 59 || hTime > 99) {
+        throw new Error("올바른 범위의 수를 입력하세요");
+      }
+      if (!hTime || !mTime || !sTime) {
+        throw new Error("시간,분,초를 모두 입력하세요");
+      }
+      if (hTime < 0 || mTime < 0 || sTime < 0) {
+        throw new Error("양수를 입력하세요");
+      }
+      hourTime(hTime);
+      minTime(mTime);
+      secTime(sTime);
+      setIsRunning(true);
+      setDisplay(true);
+    } catch (err) {
+      alert(err.message);
     }
-    hourTime(hourRef.current.value);
-    minTime(minuteRef.current.value);
-    secTime(secondRef.current.value);
-    setIsRunning(true);
-    setDisplay(true);
   };
 
   const onClickPause = () => {
@@ -101,7 +119,7 @@ const Timer = () => {
     minuteRef.current.value = minutes;
     secondRef.current.value = seconds;
     setIsRunning(false);
-  }
+  };
   const onClickReset = () => {
     hourRef.current.value = 0;
     minuteRef.current.value = 0;
@@ -110,21 +128,26 @@ const Timer = () => {
     setDisplay(false);
   };
   return (
-<Container>
-      <TimerInput ref={setRef} style={setStyle}>
-        <input type="number" min="0" ref={hourRef} />:
-        <input type="number" min="0" ref={minuteRef} />:
-        <input type="number" min="0" ref={secondRef} />
-      </TimerInput>
-      <TimerDisplay ref={displayRef} style={disStyle}>
-        {hours < 10 ? `0${hours}` : hours} :{" "}
-        {minutes < 10 ? `0${minutes}` : minutes} :{" "}
-        {seconds < 10 ? `0${seconds}` : seconds}
-      </TimerDisplay>
-      <Button onClick={onClickStart}>시작</Button>
-      <Button onClick={onClickPause}>일시정지</Button>
-      <Button onClick={onClickReset}>초기화</Button>
-
+    <Container>
+      <div>
+        <TimerInput ref={setRef} style={setStyle}>
+          <input type="number" min="0" ref={hourRef} />:
+          <input type="number" min="0" ref={minuteRef} />:
+          <input type="number" min="0" ref={secondRef} />
+        </TimerInput>
+      </div>
+      <div>
+        <TimerDisplay ref={displayRef} style={disStyle}>
+          {hours < 10 ? `0${hours}` : hours} :{" "}
+          {minutes < 10 ? `0${minutes}` : minutes} :{" "}
+          {seconds < 10 ? `0${seconds}` : seconds}
+        </TimerDisplay>
+      </div>
+      <div>
+        <Button onClick={onClickStart}>시작</Button>
+        <Button onClick={onClickPause}>일시정지</Button>
+        <Button onClick={onClickReset}>초기화</Button>
+      </div>
     </Container>
   );
 };
