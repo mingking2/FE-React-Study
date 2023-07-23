@@ -18,7 +18,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './TimerApp.css';
 
 import React, {useState, useEffect} from 'react';
-import PropTypes from 'prop-types';
 
 import {Container, Row, Col} from 'react-bootstrap';
 
@@ -66,17 +65,6 @@ const TimerApp = (props) => {
         </Container>
     );
 
-}
-
-TimerApp.propTypes = {
-    timerIsRunning: PropTypes.bool.isRequired,
-    fontSize: PropTypes.string.isRequired,
-    timeText: PropTypes.string.isRequired,
-}
-TimerApp.defaultProps = {
-    timerIsRunning: false,
-    fontSize: '13px',
-    timeText: ''
 }
 
 export default TimerApp;

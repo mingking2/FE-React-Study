@@ -173,16 +173,7 @@ const TimerDisplay = forwardRef((props,ref) => {
 
 
 TimerDisplay.propTypes = {
-    time: PropTypes.shape({min:PropTypes.number.isRequired, sec:PropTypes.number.isRequired, microSec:PropTypes.number.isRequired}).isRequired,
-    inputTime: PropTypes.shape({min:PropTypes.number.isRequired, sec:PropTypes.number.isRequired, microSec:PropTypes.number.isRequired}).isRequired,
-    timer: PropTypes.object,
-    error: PropTypes.bool
-}
-TimerDisplay.defaultProps = {
-    inputTime: {min:1, sec:0,microSec:0},
-    time: {min:1, sec:0,microSec:0},
-    timer: null,
-    error: false
+    setTimerIsRunning: PropTypes.func.isRequired,
 }
 
 export default TimerDisplay;
