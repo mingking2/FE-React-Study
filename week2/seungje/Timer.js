@@ -101,6 +101,7 @@ const Timer = () => {
 
   return (
     <div>
+
       <div className={isUrgent ? "timer-urgent" : "timer"}>
         <p>{formatTime(time)}</p>
       </div>
@@ -111,11 +112,11 @@ const Timer = () => {
         <input type="number" ref={secondsRef} placeholder="초" className="input" />
 
         <button onClick={onClickSetTime} className="button">세팅</button>
+
       </div>
       <button onClick={onClickStart} className="button"><FaPlay /> 시작</button>
       <button onClick={onClickPause} className="button"><FaPause/> 정지</button>
-      <button onClick={onClickReset} className="button"><FaUndo/> 리셋</button>
-
+      <button onClick={onClickReset} className="button"><FaUndo /> 리셋</button>
 
     </div>
   );
