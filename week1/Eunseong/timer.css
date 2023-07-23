@@ -1,0 +1,30 @@
+.back {
+  display: flex;
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+.back .timer-app {
+  background-color: #313131;
+  padding: 50px;
+  border-radius: 15px;
+}
+.back .timer-app .time {
+  color: azure;
+  font-size: 72px;
+  margin: 30px;
+}
+.back .timer-app .btns {
+  display: flex;
+}
+.back .timer-app .btns button {
+  border: none;
+  color: azure;
+  background-color: rgba(240, 255, 255, 0.1);
+  border-radius: 3px;
+  margin: 5px;
+  flex-grow: 1;
+}
