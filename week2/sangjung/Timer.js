@@ -23,7 +23,6 @@ import PropTypes from 'prop-types';
 import {Button, ButtonGroup} from 'react-bootstrap';
 
 import TimerDisplay from './TimerDisplay'
-import TimerErrorDisplay from './TimerErrorDisplay';
 import './Timer.css';
 
 
@@ -45,9 +44,7 @@ const Timer = (props) => {
     return (
         <div className="timer-container">
             <div className="timer">
-                <TimerErrorDisplay>
-                    <TimerDisplay ref={timerAction} setTimerIsRunning = {setTimerIsRunning}/>
-                </TimerErrorDisplay>
+                <TimerDisplay ref={timerAction} setTimerIsRunning = {setTimerIsRunning}/>
                 <div className="timer-bottom">
                     <ButtonGroup className="mb-2 buttons">
                         <Button
