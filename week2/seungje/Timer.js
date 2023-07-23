@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import "./Timer.css";
 
 const Timer = () => {
   //타이머 동작 함수
@@ -55,6 +56,10 @@ const Timer = () => {
       alert("시간을 입력해주세요.");
       return;
     }
+    if (minutes > 59 || seconds > 59) { // 에러 핸들링 코드3
+      alert("분과 초는 60이하의 숫자를 입력해 주세요");
+      return;
+    }
 
     const totalSeconds = hours * 3600 + minutes * 60 + seconds;
     lastSetTimeRef.current = totalSeconds; // 마지막으로 세팅한 시간 기억
@@ -92,52 +97,22 @@ const Timer = () => {
   };
 
 
-
-  const timerStyle = {
-    //긴박한 느낌을 주는 스타일
-    fontSize: isUrgent ? "4rem" : "2rem",
-    fontWeight: isUrgent ? "bold" : "normal",
-    transform: isUrgent ? "scale(1.5)" : "scale(1)",
-    transition: isUrgent ? "all 10s ease-in-out" : "none",
-    color: isUrgent ? "red" :"black"
-  };
-
-  const inputStyle = {
-    margin: "5px",
-    padding: "5px",
-    fontSize: "16px",
-    textAlign: "center",
-    width: "50px",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
-  };
-
-  const buttonStyle = {
-    margin: "5px",
-    padding: "8px 16px",
-    fontSize: "16px",
-    borderRadius: "5px",
-    cursor: "pointer",
-    border: "none",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-  };
-
   return (
     <div>
-      <div style={timerStyle}>
+      <div className={isUrgent ? "timer-urgent" : "timer"}>
         <p>{formatTime(time)}</p>
       </div>
 
       <div>
-        <input type="number" ref={hoursRef} placeholder="시간" style={inputStyle} />
-        <input type="number" ref={minutesRef} placeholder="분" style={inputStyle} />
-        <input type="number" ref={secondsRef} placeholder="초" style={inputStyle} />
+        <input type="number" ref={hoursRef} placeholder="시간" className="input" />
+        <input type="number" ref={minutesRef} placeholder="분" className="input" />
+        <input type="number" ref={secondsRef} placeholder="초" className="input" />
 
-        <button onClick={onClickSetTime} style={buttonStyle}>세팅</button>
+        <button onClick={onClickSetTime} className="button">세팅</button>
       </div>
-      <button onClick={onClickStart} style={buttonStyle}>시작</button>
-      <button onClick={onClickPause} style={buttonStyle}>정지</button>
-      <button onClick={onClickReset} style={buttonStyle}>리셋</button>
+      <button onClick={onClickStart} className="button">시작</button>
+      <button onClick={onClickPause} className="button">정지</button>
+      <button onClick={onClickReset} className="button">리셋</button>
 
 
     </div>
