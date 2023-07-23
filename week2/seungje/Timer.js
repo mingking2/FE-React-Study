@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { FaPlay, FaPause, FaUndo } from 'react-icons/fa';
 import "./Timer.css";
 
 const Timer = () => {
@@ -65,6 +66,7 @@ const Timer = () => {
     lastSetTimeRef.current = totalSeconds; // 마지막으로 세팅한 시간 기억
     setTime(totalSeconds);
   };
+
   const onClickStart = () => {
     // 시작 버튼
     if (isRunning) {
@@ -110,9 +112,9 @@ const Timer = () => {
 
         <button onClick={onClickSetTime} className="button">세팅</button>
       </div>
-      <button onClick={onClickStart} className="button">시작</button>
-      <button onClick={onClickPause} className="button">정지</button>
-      <button onClick={onClickReset} className="button">리셋</button>
+      <button onClick={onClickStart} className="button"><FaPlay /> 시작</button>
+      <button onClick={onClickPause} className="button"><FaPause/> 정지</button>
+      <button onClick={onClickReset} className="button"><FaUndo/> 리셋</button>
 
 
     </div>
