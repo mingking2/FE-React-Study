@@ -5,8 +5,8 @@ import "./App.css";
 const App = () => {
   return (
     <div className="App">
-      <TimerUi name="김승제"></TimerUi>
-      <Timer></Timer>
+      <TimerUi name="김승제"/>
+      <Timer/>
     </div>
   );
 };
