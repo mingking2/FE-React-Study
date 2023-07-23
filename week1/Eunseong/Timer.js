@@ -8,9 +8,9 @@ const Timer = () => {
   const [timer, setTimer] = useState(null);
 
   const startTimer = () => {
-    var m = min;
-    var s = sec;
-    var tms = ten_milsec;
+    let m = min;
+    let s = sec;
+    let tms = ten_milsec;
     setTimer(setInterval(() => {
       if (tms <= 0) {
         if (s <= 0) {

@@ -12,33 +12,34 @@ import RemoveIcon from '@mui/icons-material/Remove';
 const Timer = () => {
   const [min, setMin] = useState(1);
   const [sec, setSec] = useState(0);
-  const [ten_milsec, setTenMilsec] = useState(0);
+  const [tenMilSec, setTenMilSec] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const timer = useRef(null);
 
   useEffect(() => {
     if (isRunning) {
       timer.current = setInterval(() => {
-        if (ten_milsec > 0) {
-          setTenMilsec(ten_milsec - 1);
+        if (tenMilSec > 0) {
+          setTenMilSec(tenMilSec - 1);
         } else {
           if (sec > 0) {
-            setTenMilsec(99);
+            setTenMilSec(99);
             setSec(sec - 1);
           } else {
             if (min > 0) {
               setSec(59);
-              setTenMilsec(99);
+              setTenMilSec(99);
               setMin(min - 1);
             } else {
               setIsRunning(false);
+              return clearInterval(timer.current);
             }
           }
         }
       }, 10);
     }
     return () => { clearInterval(timer.current); }
-  }, [isRunning, ten_milsec, sec, min]);
+  }, [isRunning, tenMilSec, sec, min]);
 
   const minAddHandle = () => {
     try {
@@ -107,7 +108,7 @@ const Timer = () => {
     setIsRunning(false);
     setSec(0);
     setMin(1);
-    setTenMilsec(0);
+    setTenMilSec(0);
   };
 
 
@@ -151,7 +152,7 @@ const Timer = () => {
 
         {/* 10 * milliSec */}
         <div style={Styles.time}>
-          {ten_milsec.toString().padStart(2, "0")}
+          {tenMilSec.toString().padStart(2, "0")}
         </div>
       </Paper>
       {/* Time Area End */}
