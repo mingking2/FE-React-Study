@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-
 import styled from "styled-components";
+import Input from "./Input";
 
 const Container = styled.div`
   display: flex;
@@ -23,30 +23,10 @@ const Button = styled.button`
   }
 `;
 
-const TimerInput = styled.h1`
-  margin: 10px;
-  font-size: 24px;
-  input {
-    font-size: 24px;
-    padding: 2px;
-    margin: 0 5px;
-    width: 4rem;
-    height: 40px;
-    border: none;
-    outline: none;
-    font-size: 2rem;
-    padding: 0;
-    margin: 0;
-    border-bottom: 2px solid black;
-    background-color: transparent;
-    outline: none;
-    text-align: right;
-  }
-`;
-
 const TimerDisplay = styled.h1`
   font-size: 32px;
 `;
+
 const Timer = () => {
   const [hours, hourTime] = useState(0);
   const [minutes, minTime] = useState(0);
@@ -56,14 +36,14 @@ const Timer = () => {
   const hourRef = useRef(null);
   const minuteRef = useRef(null);
   const secondRef = useRef(null);
-  const displayRef = useRef(null);
-  const setRef = useRef(null);
+
   const setStyle = {
     display: display ? "none" : "block",
   };
   const disStyle = {
     display: display ? "block" : "none",
   };
+
   useEffect(() => {
     let timer;
 
@@ -82,13 +62,12 @@ const Timer = () => {
               hourTime(hours - 1);
             }
           }
-          //hour추가
         }
       }, 1000);
     }
 
     return () => clearInterval(timer);
-  }, [minutes, seconds, isRunning]);
+  }, [minutes, seconds, hours, isRunning]);
 
   const onClickStart = () => {
     try {
@@ -120,6 +99,7 @@ const Timer = () => {
     secondRef.current.value = seconds;
     setIsRunning(false);
   };
+
   const onClickReset = () => {
     hourRef.current.value = 0;
     minuteRef.current.value = 0;
@@ -127,19 +107,19 @@ const Timer = () => {
     setIsRunning(false);
     setDisplay(false);
   };
+
   return (
     <Container>
+      <Input
+        setStyle={setStyle}
+        hourRef={hourRef}
+        minuteRef={minuteRef}
+        secondRef={secondRef}
+      />
       <div>
-        <TimerInput ref={setRef} style={setStyle}>
-          <input type="number" min="0" ref={hourRef} />:
-          <input type="number" min="0" ref={minuteRef} />:
-          <input type="number" min="0" ref={secondRef} />
-        </TimerInput>
-      </div>
-      <div>
-        <TimerDisplay ref={displayRef} style={disStyle}>
-          {hours < 10 ? `0${hours}` : hours} :{" "}
-          {minutes < 10 ? `0${minutes}` : minutes} :{" "}
+        <TimerDisplay style={disStyle}>
+          {hours < 10 ? `0${hours}` : hours} :
+          {minutes < 10 ? `0${minutes}` : minutes} :
           {seconds < 10 ? `0${seconds}` : seconds}
         </TimerDisplay>
       </div>
@@ -151,4 +131,5 @@ const Timer = () => {
     </Container>
   );
 };
+
 export default Timer;
