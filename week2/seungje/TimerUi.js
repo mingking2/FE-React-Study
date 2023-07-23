@@ -1,12 +1,8 @@
-const TimerUi = props => { //UI
-    const titleStyle = {
-        fontSize: "24px",
-        fontWeight: "bold",
-        marginBottom: "10px",
-      };
+import './Timer.css'
 
+const TimerUi = props => { //UI
     return (
-        <div style={titleStyle}>
+        <div className="titleStyle">
             {props.name}의 타이머
         </div>
     );
