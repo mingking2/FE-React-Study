@@ -17,27 +17,28 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import './TimerApp.css';
 
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 import {Container, Row, Col} from 'react-bootstrap';
 
 import Timer from './Timer';
-import TimerAction from './TimerAction';
+import TimerAction from './SizingBox';
 
 const TimerApp = (props) => {
-    const [timerIsRunning, setTimerIsRunning] = useState(false);
+    const [isRunning, setIsRunning] = useState(false);
     const [fontSize, setFontSize] = useState('');
+    const timerBox = useRef();
 
     //timer-box size에 따라 timer의 font size 변경
     const handleResize = () => {
-        const timerBox = document.querySelector(".timer-box");
-        setFontSize((13 - Math.floor((648 - timerBox.offsetWidth)/54)) + "px");
+        setFontSize((13 - Math.floor((648 - timerBox.current.offsetWidth)/54)) + "px");
     }
 
     //컴포넌트가 mount 될때 비동기 처리를 하기 위한 method
     useEffect(() => {
-        window.addEventListener('resize',handleResize);
         handleResize();
+        window.addEventListener('resize',handleResize);
+        return window.removeEventListener('resize',handleResize);
     },[]);
 
 
@@ -45,21 +46,21 @@ const TimerApp = (props) => {
         <Container>
             <Row>
                 <Col>
-                    <TimerAction timerRunning={timerIsRunning}/>
+                    <TimerAction timerRunning={isRunning}/>
                 </Col>
             </Row>
             <Row>
                 <Col>
                     <div className="box" style={{fontSize}}>
-                        <div className="timer-box" >
-                        <Timer setTimerIsRunning={setTimerIsRunning}/>
+                        <div className="timer-box" ref={timerBox}>
+                            <Timer setIsRunning={setIsRunning}/>
                         </div>
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col>
-                    <TimerAction timerRunning={timerIsRunning}/>
+                    <TimerAction timerRunning={isRunning}/>
                 </Col>
             </Row>
         </Container>

@@ -1,20 +1,20 @@
-import {useState, forwardRef, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 import {Row, Col} from 'react-bootstrap';
 
 import './TimerDisplay.css';
 
-const TimerDisplay = forwardRef((props,ref) => {
-    const [inputTime, setInputTime] = useState({min:1, sec:0,microSec:0});
+const TimerDisplay = (props) => {
+    const inputTime = useRef({min:1, sec:0,microSec:0});
+    const [timer,setTimer] = useState(null);
     const [time,setTime] = useState({min:1, sec:0,microSec:0});
-    const [timer,setTimer] = useState();
-    const [error, setError] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const min = time.min.toString().padStart(2, '0');
     const sec = time.sec.toString().padStart(2, '0');
     const microSec = time.microSec.toString().padStart(2, '0');
-    const errorTag = error ? props.asdf.value : <></>;
+    const errorTag = isError ? props.asdf.value : <></>;
     
     //인풋 태그 입력시 숫자만 입력 받게
     const handleInputText = (e) => {
@@ -26,7 +26,7 @@ const TimerDisplay = forwardRef((props,ref) => {
             const obj = {...time}
             obj[name] = _time;
             setTime(obj);
-            setInputTime(obj);
+            inputTime.current = obj;
         }else if(key.match(/^\d$/g)){
             let temp = Number(time[name] + key);
             if(name === 'sec' && temp > 60){
@@ -37,90 +37,100 @@ const TimerDisplay = forwardRef((props,ref) => {
             const obj = {...time}
             obj[name] = temp;
             setTime(obj);
-            setInputTime(obj);
+            inputTime.current = obj;
         }
     }
 
     //타이머 시작
     const startTimer = () =>{
-        pauseTimer();
-        if(time.min !== 0 || time.sec !== 0 || time.microSec !== 0){
+        if(!timer && (time.min > 0 || time.sec > 0 || time.microSec > 0)){
             const newTimer = setInterval(() =>{
-                setTime((preyTime) => {
-                    if(preyTime.microSec <= 0){
-                        if(preyTime.sec <= 0){
-                            if(preyTime.min <= 0){
-                                setInputTime({
+                setTime((prevTime)=>{
+                    if(prevTime.microSec <= 0){
+                        if(prevTime.sec <= 0){
+                            if(prevTime.min <= 0){
+                                // 0ms 0s 0m 일때
+                                setTimer(clearInterval(newTimer));
+                                const obj = {
                                     min:0,
                                     sec:0,
                                     microSec: 0
-                                });
-                                setTimer((timer) => clearInterval(timer));
-                                return {
-                                    min:0,
-                                    sec:0,
-                                    microSec: 0
-                                };
+                                }
+                                inputTime.current = obj;
+                                return obj;
                             }else{
+                                // 0ms 0s (N)m 일때
                                 return {
-                                    min:preyTime.min - 1,
+                                    min:prevTime.min - 1,
                                     sec:59,
                                     microSec: 99
                                 };
                             }
                         }else{
+                            // 0ms (N)s (N)m 일때
                             return {
-                                ...preyTime,
-                                sec: preyTime.sec -1,
+                                ...prevTime,
+                                sec: prevTime.sec -1,
                                 microSec: 99
                             };
                         }
                     }else{
+                        // (N)ms (N)s (N)m 일때
                         return {
-                            ...preyTime,
-                            microSec: preyTime.microSec -1
+                            ...prevTime,
+                            microSec: prevTime.microSec -1
                         };
                     }
-                },);
+                })
             }, 10);
             setTimer(newTimer);
         }
     }
     //타이머 일시 중지
     const pauseTimer = () => {
-        setTimer((timer) => clearInterval(timer));
+        setTimer(clearInterval(timer));
     }
 
     //타이머 중지 시간 입력값으로 초기화
     const stopTimer = () => {
         pauseTimer();
-        setTime(inputTime);
+        setTime(inputTime.current);
     }
 
-    //에럽 발생
+    //에러 발생
     const causeError = () => {
-        setError(true);
+        stopTimer();
+        setIsError(true);
     }
 
-    //ref 전달
-    useEffect(() => {
-        ref.current = {
-            startTimer,
-            pauseTimer,
-            stopTimer,
-            causeError,
-        };
+    //props.clicked 값이 바뀔때 마다 버튼 함수 실행
+    useEffect(()=>{
+        switch(props.clicked){
+            case "START":
+                startTimer();
+                break;
+            case "PAUSE":
+                pauseTimer();
+                break;
+            case "STOP":
+                stopTimer();
+                break;
+            case "ERROR":
+                causeError();
+                break;
+            default:
+                break;
+        }   
+    },[props.clicked])
 
-    },[]);
-
-    //timer 바뀔때마다 props에 값 전달
-    useEffect(() => {
+    //timer바뀔때 마다 실행
+    useEffect(()=>{
         timer ? props.setTimerIsRunning(true) : props.setTimerIsRunning(false);
     },[timer])
 
     try{
         return (
-            <Row ref={ref} className="justify-content-md-center input-text-groups">
+            <Row className="justify-content-md-center input-text-groups">
                 {errorTag}
                 <Col md="auto">
                     <input 
@@ -169,7 +179,7 @@ const TimerDisplay = forwardRef((props,ref) => {
         );
     };
  
-});
+};
 
 
 TimerDisplay.propTypes = {

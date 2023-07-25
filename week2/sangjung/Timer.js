@@ -17,7 +17,7 @@
 
 */
 
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 
 import {Button, ButtonGroup} from 'react-bootstrap';
@@ -28,47 +28,52 @@ import './Timer.css';
 
 
 const Timer = (props) => {
-    const [timerIsRunning, _setTimerIsRunning] = useState(false);
-    //자식 컴포넌트의 함수를 사용하기 위해 ref 선언
-    const timerAction = useRef();
+    const [isRunning, setIsRunning] = useState(false);
+    const [clicked, setClicked] = useState(0); 
 
     //timer 상태를 state에 저장하는 함수
     const setTimerIsRunning = (bool) => {
-        _setTimerIsRunning(bool);
-        if (props.setTimerIsRunning){
-            props.setTimerIsRunning(bool);
-        }
+        setIsRunning(bool);
+        props.setIsRunning(bool);
+        
     }
 
-    const circleClassName = timerIsRunning ? "circle rotate-circle":"circle";
+    //button 클릭 이벤트 핸들러
+    const handleButton = (e) => {
+        setClicked(e.target.name);
+    }
+
+    const circleClassName = isRunning ? "circle rotate-circle":"circle";
 
     return (
         <div className="timer-container">
             <div className="timer">
                 <TimerErrorDisplay>
-                    <TimerDisplay ref={timerAction} setTimerIsRunning = {setTimerIsRunning}/>
+                    <TimerDisplay setTimerIsRunning = {setTimerIsRunning} clicked={clicked}/>
                 </TimerErrorDisplay>
                 <div className="timer-bottom">
                     <ButtonGroup className="mb-2 buttons">
                         <Button
-                            onClick={()=>timerAction.current.startTimer()}
+                            name="START"
+                            onClick={handleButton}
                         >START</Button>
                         <Button
-                            onClick={()=>timerAction?.current?.pauseTimer()}
+                            name='PAUSE'
+                            onClick={handleButton}
                         >PAUSE</Button>
                         <Button
-                            onClick={()=>timerAction?.current?.stopTimer()}
+                            name='STOP'
+                            onClick={handleButton}
                         >STOP</Button>
                         <Button
-                            onClick={()=>timerAction?.current?.causeError()}
+                            name='ERROR'
+                            onClick={handleButton}
                         >ERROR</Button>
                     </ButtonGroup>
                 </div>
             </div>
             <div className="circle-container">
-                <div className={circleClassName}>
-
-                </div>
+                <div className={circleClassName}/>
             </div>
         </div>
     );
@@ -76,6 +81,6 @@ const Timer = (props) => {
 
 
 Timer.propTypes = {
-    setTimerIsRunning: PropTypes.func.isRequired,
+    setIsRunning: PropTypes.func.isRequired,
 }
 export default Timer;
