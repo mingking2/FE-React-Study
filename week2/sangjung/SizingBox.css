@@ -1,0 +1,42 @@
+@media (min-width: 830px) {
+}
+@media (min-height: 420px){
+    #timer-Action{
+        /* padding-bottom: 20vh; */
+        .col{
+            padding-top: 5vh;
+        }
+    }
+}
+
+@media (max-width: 829px) {
+}
+
+@media (max-height: 419px){
+    #timer-Action{
+        /* padding-bottom: 84px; */
+        .col{
+            padding-top: 21px;
+        }
+    }
+}
+
+
+#timer-Action{
+        .col{
+            float:left;
+            width:20%;
+            background-color: rgb(223, 175, 255); 
+            outline: 0px solid white;
+            z-index: 100;
+            transition-duration:  100ms;
+        }
+
+        .start-timer{
+            transition-duration:  1000ms;
+            scale: 0.90 0.7 ;
+            outline: 1px solid white;
+            border-radius: 10px;
+            z-index: -100;
+        }
+}
