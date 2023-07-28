@@ -18,16 +18,17 @@ export const setBase = (baseDate, baseTime, today) => {
     baseDate.current = getBaseDate(today);
     baseTime.current = getBaseTime(today);
 
-    let prevTime = "2300";
+    let prevTime = "2340";
     for (let time of baseTimeList) {
         if (Number(baseTime.current) < Number(time)) {
-            if (prevTime === "2300") {
+            if (prevTime === "2340") {
                 const yesterday = new Date(today.setDate(today.getDate() - 1));
                 baseDate.current = getBaseDate(yesterday);
             }
             baseTime.current = prevTime
+            break;
         }
-        else prevTime = time.substring(0, 2) + "00"
+        else prevTime = time
     }
 }
 

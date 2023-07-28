@@ -46,27 +46,45 @@ const News = () => {
     useEffect(() => {
         const setState = async (state) => {
             const queryString = process.env.REACT_APP_END_POINT + "?" + Object.entries(state).map(e => e.join('=')).join('&');
-            // console.log(state.base_date);
-            // console.log(state.base_time);
 
-            const res = await axios.get(queryString);
-            // console.log(res.data.response.body.items.item);
-
-            try { setData(getWeatherData(res.data.response.body.items.item)); }
+            try { await axios.get(queryString).then(res => setData(getWeatherData(res.data.response.body.items.item))); }
             catch (e) {
                 console.log(e)
-                setState(state)
+                await setState(state)
             }
         };
 
-        setBase(baseDate, baseTime, today);
         setState(state);
-        // console.log(state);
 
-        let id = setTimeout(() => setToday(new Date()), 1000)
-
+        const id = setTimeout(() => setToday(new Date()), 1000)
         return () => clearTimeout(id)
     }, [state, today]);
+
+    const handle시_도 = (e) => {
+        console.log('시/도')
+        set시_도(e.target.value)
+        set시_군_구('시_군_구')
+        set읍_면_동('읍_면_동')
+    }
+    const handle시_군_구 = (e) => {
+        console.log('시/군/구')
+        set시_군_구(e.target.value)
+        set읍_면_동('읍_면_동')
+    }
+    const handle읍_면_동 = (e) => {
+        console.log('읍/면/동')
+        set읍_면_동(e.target.value)
+    }
+    const handle위치 = async () => {
+        if (시_도 !== '시_도' && 시_군_구 !== '시_군_구' && 읍_면_동 !== '읍_면_동') {
+            const selection = 행정구역.get(시_도).get(시_군_구).get(읍_면_동);
+            const nx = selection[0];
+            const ny = selection[1];
+            await dispatch({ x: nx, y: ny });
+            await set위치(시_도 + " " + 시_군_구 + " " + 읍_면_동)
+        }
+        else alert('Wrong Selection')
+    }
 
     return (
         <Container>
@@ -74,21 +92,12 @@ const News = () => {
             <Form>
                 <Row>
                     <Col>
-                        <Form.Select value={시_도} onChange={(e) => {
-                            console.log('시/도')
-                            set시_도(e.target.value)
-                            set시_군_구('시_군_구')
-                            set읍_면_동('읍_면_동')
-                        }}>
+                        <Form.Select value={시_도} onChange={handle시_도}>
                             {Array.from(행정구역.keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))}
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select value={시_군_구} onChange={(e) => {
-                            console.log('시/군/구')
-                            set시_군_구(e.target.value)
-                            set읍_면_동('읍_면_동')
-                        }}>
+                        <Form.Select value={시_군_구} onChange={handle시_군_구}>
                             {
                                 (시_도 === '시_도') ?
                                     (<option key={0} value={'시/군/구'}>시/군/구</option>) :
@@ -97,10 +106,7 @@ const News = () => {
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select value={읍_면_동} onChange={(e) => {
-                            console.log('읍/면/동')
-                            set읍_면_동(e.target.value)
-                        }}>
+                        <Form.Select value={읍_면_동} onChange={handle읍_면_동}>
                             {
                                 (시_군_구 === '시_군_구') ?
                                     (<option key={0} value={'읍/면/동'}>읍/면/동</option>) :
@@ -109,16 +115,7 @@ const News = () => {
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Button variant="primary" type="button" onClick={() => {
-                            if (시_도 !== '시_도' && 시_군_구 !== '시_군_구' && 읍_면_동 !== '읍_면_동') {
-                                const selection = 행정구역.get(시_도).get(시_군_구).get(읍_면_동);
-                                const nx = selection[0];
-                                const ny = selection[1];
-                                dispatch({ x: nx, y: ny });
-                                set위치(시_도 + " " + 시_군_구 + " " + 읍_면_동)
-                            }
-                            else alert('Wrong Selection')
-                        }}>
+                        <Button variant="primary" type="button" onClick={handle위치}>
                             <span>실행</span>
                         </Button>
                     </Col>
