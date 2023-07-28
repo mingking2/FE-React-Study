@@ -1,0 +1,34 @@
+.header{
+    background-color: rgba(178, 178, 178, 0.5);
+}
+
+.footer{
+    background-color: rgb(141, 141, 141);
+}
+
+.container{
+    margin: 5% 0% 5% 0%;
+}
+
+.button{
+    border: 0px solid black;
+    outline: 1px solid black;
+    border-radius: 1px;
+    background-color: white;
+    margin-left:10px;
+    
+    &:hover{
+        outline: 3px solid black;
+    }
+
+    &:first-child{
+        margin-left: 0px;
+    }
+
+    &.activated{
+        background-color: rgb(141, 141, 141);
+        &:hover{
+            outline: 1px solid black;
+        }
+    }
+}
