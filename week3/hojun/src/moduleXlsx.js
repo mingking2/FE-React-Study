@@ -15,7 +15,7 @@ export const getXlsx = async () => {
             // ny = 4;
 
             const 시_도 = new Map();
-            for (let row of rows) {
+            rows.forEach((row) => {
                 시_도.set(row[2], (() => {
                     if (시_도.get(row[2]) === undefined)
                         return new Map().set('시/군/구', new Map().set('읍/면/동', null));
@@ -31,7 +31,7 @@ export const getXlsx = async () => {
                         })())
                     }
                 })())
-            }
+            })
 
             return 시_도;
         })
