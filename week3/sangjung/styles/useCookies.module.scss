@@ -1,0 +1,83 @@
+.modal{
+    width: 900px;
+    height: 600px;
+
+    .header{
+        width:900px;
+        height:100px;
+        text-align: center;
+
+        span{   
+            
+            color:red;
+            font-size:30px;
+            font-weight: 600;
+        }
+    }
+    .container{
+        width: 900px;
+        height: 380px;
+        padding:10px;
+
+        textarea{
+            width:880px;
+            height: 370px;
+        }
+
+        
+    }
+
+    .footer{
+        padding-top: 30px;
+        width:900px;
+        height: 70px;
+
+        input[type="checkbox"]{
+            width: 20px;
+            height: 20px;
+            outline: 0px solid black;
+            border-radius: 10px;
+        }
+        span{
+            margin-left:10px;
+            font-size:20px;
+        }
+        button{
+            background-color: white;
+            border: 0px solid black;
+            outline: 2px solid black;
+            border-radius: 5px;
+            width:100px;
+            height:30px;
+            float:right;
+            margin:10px;
+            font-size:20px;
+
+            transform: translate(0, -15px);
+            &:hover{
+                color:white;
+                background-color: black;
+                outline:2px solid gray;
+                transition-duration:  1000ms;
+            }
+        }
+    }
+
+    .blink{
+        animation: blinking 2s;
+    }
+}
+
+@keyframes blinking {
+    0% {  outline: 3px solid red; }
+    10% { outline: 0px solid black; }
+    20% {  outline: 3px solid red; }
+    30% { outline: 0px solid black; }
+    40% {  outline: 3px solid red; }
+    50% { outline: 0px solid black; }
+    60% { outline: 3px solid red; }
+    70% {  outline: 0px solid black; }
+    80% { outline: 3px solid red; }
+    90% {  outline: 0px solid black; }
+    100% {  outline: 3px solid red; }
+}
