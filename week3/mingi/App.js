@@ -10,13 +10,13 @@ const App = () => {
 
   const handleAddMemo = () => {
     if (memo.trim() !== '') {
-      setMemos((prevMemos) => [...prevMemos, { id: Date.now(), text: memo }]);
+      setMemos([...memos, { id: Date.now(), text: memo }]); // ES6의 확산 연산자를 사용하여 배열을 복사하고, 새로운 요소를 추가하는 방법
       setMemo('');
     }
   };
 
   const handleDeleteMemo = (memoId) => {
-    setMemos((prevMemos) => prevMemos.filter((m) => m.id !== memoId));
+    setMemos(memos.filter((m) => m.id !== memoId));
   };
 
   return (
