@@ -80,7 +80,7 @@ function UserList({ users, onRemove, onToggle }) {
 export default UserList;
 ```
 
-![Untitled](https://www.notion.so/Cp8-3304ef4fc44e427bbd97f636a95cc462?pvs=4#11e9794c392f4d80806256f5855ddc39)
+![Untitled](https://github.com/Tentennball/FE-React-Study/blob/main/week3/taehoon/useEffect.png?raw=true)
 
 <코드, 사진 ref>
 
