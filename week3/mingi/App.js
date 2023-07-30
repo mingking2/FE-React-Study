@@ -36,7 +36,7 @@ const App = () => {
       <ul>
         {memos.map((m) => (
           <li key={m.id}>
-            {m.text}
+            {m.text.replace(/ /g," \u00A0")}
             <button onClick={() => handleDeleteMemo(m.id)}>
               <FaTrash />
             </button>
