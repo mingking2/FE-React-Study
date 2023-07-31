@@ -1,0 +1,45 @@
+/* src/App.css */
+.App {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 5px;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    background-color: #f0f0f0;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+  }
+  
+  li button {
+    margin-left: 1rem;
+  }
+  
