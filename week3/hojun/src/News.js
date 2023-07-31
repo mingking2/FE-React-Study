@@ -10,7 +10,19 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 
 const 행정구역 = await getXlsx();
 
-const reducer = (state, action) => {
+const initial시_도 = '시_도'
+const initial시_군_구 = '시_군_구'
+const initial읍_면_동 = '읍_면_동'
+
+const reducer위치 = (state, action) => {
+    return {
+        시_도: action.시_도,
+        시_군_구: action.시_군_구,
+        읍_면_동: action.읍_면_동
+    }
+}
+
+const reducerState = (state, action) => {
     return {
         ...state,
         nx: action.x,
@@ -19,20 +31,22 @@ const reducer = (state, action) => {
 }
 
 const News = () => {
+    const flag = useRef(null);
+
+    const [weatherData, setWeatherData] = useState(null);
+
     const baseDate = useRef(null);
     const baseTime = useRef(null);
-
     const [today, setToday] = useState(new Date());
     setBase(baseDate, baseTime, today);
 
-    const [weatherData, setData] = useState(null);
+    const [위치, dispatch위치] = useReducer(reducer위치, {
+        시_도: initial시_도,
+        시_군_구: initial시_군_구,
+        읍_면_동: initial읍_면_동
+    })
 
-    const [시_도, set시_도] = useState('시_도');
-    const [시_군_구, set시_군_구] = useState('시_군_구');
-    const [읍_면_동, set읍_면_동] = useState('읍_면_동');
-    const [위치, set위치] = useState(null);
-
-    const [state, dispatch] = useReducer(reducer, {
+    const [state, dispatchState] = useReducer(reducerState, {
         serviceKey: process.env.REACT_APP_ENCODING_KEY,
         pageNo: '1',
         numOfRows: '100',
@@ -47,7 +61,11 @@ const News = () => {
         const setState = async (state) => {
             const queryString = process.env.REACT_APP_END_POINT + "?" + Object.entries(state).map(e => e.join('=')).join('&');
 
-            try { await axios.get(queryString).then(res => setData(getWeatherData(res.data.response.body.items.item))); }
+            try {
+                await axios.get(queryString)
+                    .then(res => setWeatherData(getWeatherData(res.data.response.body.items.item)))
+                    .then(flag.current = true);
+            }
             catch (e) {
                 console.log(e)
                 await setState(state)
@@ -55,33 +73,46 @@ const News = () => {
         };
 
         setState(state);
+    }, [state]);
 
+    useEffect(() => {
         const id = setTimeout(() => setToday(new Date()), 1000)
         return () => clearTimeout(id)
-    }, [state, today]);
+    }, [today])
 
     const handle시_도 = (e) => {
         console.log('시/도')
-        set시_도(e.target.value)
-        set시_군_구('시_군_구')
-        set읍_면_동('읍_면_동')
+        flag.current = false;
+        dispatch위치({
+            시_도: e.target.value,
+            시_군_구: initial시_군_구,
+            읍_면_동: initial읍_면_동
+        })
     }
     const handle시_군_구 = (e) => {
         console.log('시/군/구')
-        set시_군_구(e.target.value)
-        set읍_면_동('읍_면_동')
+        flag.current = false;
+        dispatch위치({
+            시_도: 위치.시_도,
+            시_군_구: e.target.value,
+            읍_면_동: initial읍_면_동
+        })
     }
     const handle읍_면_동 = (e) => {
         console.log('읍/면/동')
-        set읍_면_동(e.target.value)
+        flag.current = false;
+        dispatch위치({
+            시_도: 위치.시_도,
+            시_군_구: 위치.시_군_구,
+            읍_면_동: e.target.value
+        })
     }
-    const handle위치 = async () => {
-        if (시_도 !== '시_도' && 시_군_구 !== '시_군_구' && 읍_면_동 !== '읍_면_동') {
-            const selection = 행정구역.get(시_도).get(시_군_구).get(읍_면_동);
+    const handle위치 = () => {
+        if (위치.시_도 !== initial시_도 && 위치.시_군_구 !== initial시_군_구 && 위치.읍_면_동 !== initial읍_면_동) {
+            const selection = 행정구역.get(위치.시_도).get(위치.시_군_구).get(위치.읍_면_동);
             const nx = selection[0];
             const ny = selection[1];
-            await dispatch({ x: nx, y: ny });
-            await set위치(시_도 + " " + 시_군_구 + " " + 읍_면_동)
+            dispatchState({ x: nx, y: ny });
         }
         else alert('Wrong Selection')
     }
@@ -92,25 +123,25 @@ const News = () => {
             <Form>
                 <Row>
                     <Col>
-                        <Form.Select value={시_도} onChange={handle시_도}>
+                        <Form.Select value={위치.시_도} onChange={handle시_도}>
                             {Array.from(행정구역.keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))}
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select value={시_군_구} onChange={handle시_군_구}>
+                        <Form.Select value={위치.시_군_구} onChange={handle시_군_구}>
                             {
-                                (시_도 === '시_도') ?
+                                (위치.시_도 === initial시_도) ?
                                     (<option key={0} value={'시/군/구'}>시/군/구</option>) :
-                                    Array.from(행정구역.get(시_도).keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))
+                                    Array.from(행정구역.get(위치.시_도).keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))
                             }
                         </Form.Select>
                     </Col>
                     <Col>
-                        <Form.Select value={읍_면_동} onChange={handle읍_면_동}>
+                        <Form.Select value={위치.읍_면_동} onChange={handle읍_면_동}>
                             {
-                                (시_군_구 === '시_군_구') ?
+                                (위치.시_군_구 === initial시_군_구) ?
                                     (<option key={0} value={'읍/면/동'}>읍/면/동</option>) :
-                                    Array.from(행정구역.get(시_도).get(시_군_구).keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))
+                                    Array.from(행정구역.get(위치.시_도).get(위치.시_군_구).keys()).map((value, index) => (<option key={index} value={value}>{value}</option>))
                             }
                         </Form.Select>
                     </Col>
@@ -124,9 +155,17 @@ const News = () => {
             <div>
                 {today.toString()}
             </div>
-            {(위치 !== null) ? (<div>{위치}</div>) : null}
+            {
+                (flag.current && 위치.시_도 !== initial시_도 && 위치.시_군_구 !== initial시_군_구 && 위치.읍_면_동 !== initial읍_면_동) ?
+                    (위치.시_도 + " " + 위치.시_군_구 + " " + 위치.읍_면_동) :
+                    null
+            }
             <pre>
-                {JSON.stringify(weatherData, null, 3).replace(/,/g, '\n').replace(/["{}]/g, '')}
+                {
+                    (flag.current) ?
+                        (JSON.stringify(weatherData, null, 3).replace(/,/g, '\n').replace(/["{}]/g, '')) :
+                        null
+                }
             </pre>
         </Container >
     )
