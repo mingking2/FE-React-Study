@@ -15,21 +15,23 @@ const LoginForm = () => {
       {errors.emailCheck && (
         <small role="alert">{errors.emailCheck.message}</small>
       )}
-      <br></br>
+      <br/>
 
       <label htmlFor="password">비밀번호</label>
       <input
         id="password"
         type="password"
-        placeholder="**********"
+        placeholder="비밀번호 입력"
         {...register("passwordCheck", passwordRules)}
       />
       {errors.passwordCheck && (
         <small role="alert">{errors.passwordCheck.message}</small>
       )}
-      <br></br>
+      <br/>
+      <small>비밀번호 규칙 : 8자이상 숫자 + 영문자 + 특수문자</small>
+      <br/>
 
-      <button type="submit">로그인</button>
+      <button type="submit">회원가입</button>
     </form>
   );
 };
