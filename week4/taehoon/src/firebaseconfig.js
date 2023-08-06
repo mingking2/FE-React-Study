@@ -6,12 +6,20 @@ axios.defaults = {
   headers: {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,PUT,DELETE,PATCH',
-  }
+  },
 };
+const requestAPI = async(method, url, body)=>{
+  try{
+  return await axios[method](url, body);
+  }
+  catch(err){
+    console.log(err);
+  }
+}
 
 const getData = async (setTodos) => {
-  const Data = await axios.get('.json');
   try {
+    const Data = await requestAPI('get', '.json');
     const setData = [];
     if (Data.data) {
       Object.entries(Data.data).map((d) => setData.push(d[1]));
@@ -23,8 +31,8 @@ const getData = async (setTodos) => {
 };
 
 const putData = async (Todos, setTodos) => {
-  await axios.put(`/${Todos.text}.json`, Todos);
   try {
+    await requestAPI('put', `/${Todos.id}.json`, Todos);
     getData(setTodos);
   } catch (err) {
     console.log(err);
@@ -33,7 +41,7 @@ const putData = async (Todos, setTodos) => {
 
 const patchData = async (Todos) => {
   try {
-    await axios.patch(`/${Todos.text}.json`, { checked: Todos.checked });
+    await requestAPI('patch', `/${Todos.id}.json`, { checked: Todos.checked });
   } catch (err) {
     alert(err);
   }
@@ -41,7 +49,7 @@ const patchData = async (Todos) => {
 
 const delData = async (Todos) => {
   try {
-    await axios.delete(`/${Todos.text}.json`);
+    await requestAPI('delete', `/${Todos.id}.json`);
   } catch (err) {
     alert(err);
   }
