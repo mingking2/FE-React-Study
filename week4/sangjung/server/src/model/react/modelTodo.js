@@ -11,15 +11,12 @@ const post = async (id, text, checked) => {
                 id: id,
             },
         });
-        console.log(rows);
         if (rows.length === 0){
-            console.log("good");
             await Todo.create({
                 id,
                 text,
                 checked
             });
-            console.log("good1");
             return [null, "completed"];
         }else{
             return [null, "failed"];
@@ -45,7 +42,7 @@ const _delete = async (id) => {
                 id
             },
         });
-        if (rows.length === 0){
+        if (rows.length !== 0){
             return [null, "completed"];
         }else{
             return [null, "failed"];

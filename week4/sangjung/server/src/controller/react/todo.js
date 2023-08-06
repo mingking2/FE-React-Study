@@ -29,7 +29,6 @@ router.post('/', async (req, res)=>{
         const id = req.body.id;
         const text = req.body.text;
         const checked = req.body.checked;
-        console.log(id,text,checked);
         const [data, status] = await modelTodo.post(id,text, checked);
         if(status === "error"){
             throw data;
@@ -44,7 +43,7 @@ router.post('/', async (req, res)=>{
 
 router.delete('/', async(req, res)=>{
     try{
-        const id = req.params.id;
+        const id = Number(req.query.id);
         const [data, status] = await modelTodo._delete(id);
         if(status === "error"){
             throw data;
@@ -61,7 +60,6 @@ router.patch('/', async(req, res)=>{
     try{
         const id = req.body.id;
         const checked = req.body.checked;
-        console.log(id,checked);
         const [data, status] = await modelTodo.patch(id,checked);
         if(status === "error"){
             throw data;

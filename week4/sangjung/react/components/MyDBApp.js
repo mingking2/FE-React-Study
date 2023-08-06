@@ -10,8 +10,10 @@ import "./App.scss";
 const myDB = axios.create({
     baseURL: 'http://localhost:8080',
     timeout: 1000,
-    headers: {'Content-type': 'application/json', 
-    'Accept': 'application/json' },
+    headers: {
+        'Content-type': 'application/json', 
+        'Accept': 'application/json' 
+    },
 })
 
 const getDB = async () => {
@@ -45,9 +47,7 @@ const patchDB = async(id, data) => {
 }
 
 const deleteDB = async(id) => {
-    const response = await myDB.delete('/react/todo',{
-        id:id
-    });
+    const response = await myDB.delete(`/react/todo?id=${id}`);
     if (response.data.status !== "completed") {
         throw response.data.data;
     }
@@ -81,7 +81,7 @@ const App = () => {
             try{
                 await deleteDB(String(id));
                 setTodos(todos.filter(todo=> todo.id !== id));
-                if(todos.length === 0){
+                if(todos.length === 1){
                     nextId.current = 1;
                 }
             }catch (e){
