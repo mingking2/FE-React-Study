@@ -13,19 +13,19 @@ const App = () => {
     };
     fetchData();
   }, []);
-  const nextId = useRef(0);
+  const newId = Date.now();
 
   const onInsert = useCallback(
     (text) => {
       const todo = {
-        id: nextId.current,
+        id: newId,
         text: text,
         checked: false,
       };
       putData(todo, setTodos);
-      nextId.current += 1;
+      
     },
-    [],
+    [newId],
   );
   const onRemove = useCallback(
     (id) => {
