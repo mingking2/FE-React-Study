@@ -12,13 +12,10 @@ axios.defaults = {
 const getData = async (setTodos) => {
   const Data = await axios.get('.json');
   try {
+    const setData = [];
     if (Data.data) {
-      const setData = [];
       Object.entries(Data.data).map((d) => setData.push(d[1]));
       setTodos(setData);
-    }
-    else{
-      setTodos([]);
     }
   } catch (err) {
     console.log(err);
@@ -26,7 +23,7 @@ const getData = async (setTodos) => {
 };
 
 const putData = async (Todos, setTodos) => {
-  await axios.put(`/${Todos.id}.json`, Todos);
+  await axios.put(`/${Todos.text}.json`, Todos);
   try {
     getData(setTodos);
   } catch (err) {
@@ -36,7 +33,7 @@ const putData = async (Todos, setTodos) => {
 
 const patchData = async (Todos) => {
   try {
-    await axios.patch(`/${Todos.id}.json`, { checked: Todos.checked });
+    await axios.patch(`/${Todos.text}.json`, { checked: Todos.checked });
   } catch (err) {
     alert(err);
   }
@@ -44,7 +41,7 @@ const patchData = async (Todos) => {
 
 const delData = async (Todos) => {
   try {
-    await axios.delete(`/${Todos.id}.json`);
+    await axios.delete(`/${Todos.text}.json`);
   } catch (err) {
     alert(err);
   }
