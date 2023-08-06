@@ -11,7 +11,7 @@ const App = () => {
       await getData(setTodos);
     };
     fetchData();
-  }, []);
+  }, [todos]);
   const nextId = useRef(0);
 
   const onInsert = useCallback(
@@ -24,6 +24,7 @@ const App = () => {
       putData(todo, setTodos);
       setTodos(todos.concat(todo));
       nextId.current += 1;
+      console.log(todos);
     },
     [todos],
   );
@@ -38,7 +39,7 @@ const App = () => {
         }),
       );
     },
-    [todos],
+    [todos]
   );
   const onToggle = useCallback(
     (id) => {

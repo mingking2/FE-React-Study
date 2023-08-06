@@ -17,6 +17,9 @@ const getData = async (setTodos) => {
       Object.entries(Data.data).map((d) => setData.push(d[1]));
       setTodos(setData);
     }
+    else{
+      setTodos([]);
+    }
   } catch (err) {
     console.log(err);
   }
@@ -27,7 +30,7 @@ const putData = async (Todos, setTodos) => {
   try {
     getData(setTodos);
   } catch (err) {
-    alert('put' + err);
+    console.log(err);
   }
 };
 
