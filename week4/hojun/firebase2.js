@@ -9,7 +9,7 @@ axios.defaults = {
 
 const url = 'https://fir-rest-api-e2b43-default-rtdb.firebaseio.com/'
 
-export const get = (setTodos) => {
+const get = (setTodos) => {
     axios.get(url + '.json')
         .then((result) => {
             const tmp = []
@@ -19,20 +19,20 @@ export const get = (setTodos) => {
         .catch(err => console.log(err))
 }
 
-export const put = (todo, setTodos) => {
+const put = (todo, setTodos) => {
     axios.put(url + `/${todo.text}.json`, todo)
         .then(() => get(setTodos))
         .then(res => console.log(res))
         .catch(err => console.log(err))
 }
 
-export const del = (todo) => {
+const del = (todo) => {
     axios.delete(url + `/${todo.text}.json`)
         .then(res => console.log(res))
         .catch(err => console.log(err))
 }
 
-export const patch = (todo) => {
+const patch = (todo) => {
     axios.patch(url + `/${todo.text}.json`, { "checked": todo.checked })
         .then(res => console.log(res))
         .catch(err => console.log(err))
