@@ -6,27 +6,26 @@ import { getData, putData, patchData, delData } from './firebaseconfig';
 
 const App = () => {
   const [todos, setTodos] = useState([]);
+  // console.log(todos);
   useEffect(() => {
     const fetchData = async () => {
       await getData(setTodos);
     };
     fetchData();
-  }, [todos]);
-  const nextId = useRef(0);
+  }, []);
+  const newId = Date.now();
 
   const onInsert = useCallback(
     (text) => {
       const todo = {
-        id: nextId.current,
-        text,
+        id: newId,
+        text: text,
         checked: false,
       };
       putData(todo, setTodos);
-      setTodos(todos.concat(todo));
-      nextId.current += 1;
-      console.log(todos);
+      
     },
-    [todos],
+    [newId],
   );
   const onRemove = useCallback(
     (id) => {
