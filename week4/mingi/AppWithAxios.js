@@ -14,11 +14,9 @@ const App = () => {
       const response = await axios.get('https://sangjeong-9bfd9-default-rtdb.firebaseio.com/todos.json');
       const todosData = response.data;
 
+      // 처음부터 배열로 받아라
       if (todosData) {
-        const todosArray = Object.keys(todosData).map(key => ({
-          id: key,
-          ...todosData[key]
-        }));
+        const todosArray = Object.values(todosData);
         setTodos(todosArray);
       }
     } catch (error) {
