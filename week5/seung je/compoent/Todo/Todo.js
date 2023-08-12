@@ -30,25 +30,22 @@ const Todo = () => {
   }, []);
 
   const onRemove = useCallback((id) => {  //todo 삭제
-    setTodos( todos.filter((todo) => {
+    todos.forEach((todo) => {
       if (todo.id === id) {
-        firebase.removeData(todo); //해당하는 id의 todo 삭제
-        return false;
-      } else return true;
-    }))
+        firebase.removeData(todo); // 해당하는 id의 todo 삭제
+      }
+    });
   },[todos]);
 
   const onToggle = useCallback((id) => { //todo 변경(checked) immer 활용
-    setTodos((prevTodos) =>
-      produce(prevTodos, (draft) => {
-        const todo = draft.find((todo) => todo.id === id);
-        if (todo) {
-          todo.checked = !todo.checked;
-          firebase.editData(todo);
-        }
-      })
-    );
-  }, []);
+    produce(todos, (draft) => {
+      const todo = draft.find((todo) => todo.id === id);
+      if (todo) {
+        todo.checked = !todo.checked;
+        firebase.editData(todo);
+      }});
+
+  }, [todos]);
   
 
   return (
@@ -62,13 +59,3 @@ const Todo = () => {
 };
 
 export default Todo;
-
-// const onToggle = useCallback((id) => {  //todo 변경(checked)
-  //   setTodos( todos.map((todo) => {
-  //     if (todo.id === id) {
-  //       const tmp = { ...todo, checked: !todo.checked };
-  //       firebase.editData(tmp);
-  //       return tmp;
-  //     } else return todo;
-  //   }))
-  // },[todos]);
