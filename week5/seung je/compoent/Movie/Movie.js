@@ -16,7 +16,7 @@ const Movie = () => {
             headers: {
               accept: 'application/json',
               Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMzI1OTc2NDkzMWM3MzEzZGRmYjM0NDExNzg3MTcxOCIsInN1YiI6IjY0ZDc0Mzc2YjZjMjY0MTE1NzUzNzVkZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nOVBeo5wpEI8eC5Kq9klyD5RtEi0_srLYTPqMNGbJIA',
+              process.env.REACT_APP_MOVIE_API_KEY ,
             },
             params: {
               limit: 10, 
