@@ -1,0 +1,32 @@
+.buttonBox{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 200px;
+
+    .btn:nth-child(1){
+        border-radius: 10px 0px 0px 10px;
+    }
+    .btn:nth-child(2){
+        border-radius: 0px 10px 10px 0px;
+    }
+
+
+    .btn {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        padding: 14px 40px;
+        cursor: pointer;
+        &.checked {
+            background-color: #008CBA;
+          }
+      }
+
+}
