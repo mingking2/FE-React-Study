@@ -7,7 +7,7 @@ const Weather = () => {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      const apiKey = '61286f036a26a88e4050729eabd4fd47';
+      const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
       const city = 'Seoul';
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
