@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDE7q6tx9-uNE39-A8wBLzCGJbXj7dn_DQ',
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: 'test1-36c17.firebaseapp.com',
   databaseURL: 'https://test1-36c17-default-rtdb.firebaseio.com',
   projectId: 'test1-36c17',
