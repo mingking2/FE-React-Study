@@ -30,7 +30,7 @@ const reducerState = (state, action) => {
     };
 }
 
-const News = () => {
+const Weathers = () => {
     const flag = useRef(null);
 
     const [weatherData, setWeatherData] = useState(null);
@@ -171,4 +171,4 @@ const News = () => {
     )
 }
 
-export default News;
+export default Weathers;
