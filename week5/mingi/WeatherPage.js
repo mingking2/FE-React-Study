@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 const WeatherPage = () => {
   const [weather, setWeather] = useState(null);
 
+
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
@@ -34,10 +35,11 @@ const WeatherPage = () => {
 
 
   const { name, main, weather: weatherInfo } = weather;
+  console.log(weather);
   const temperature = main.temp;
   const temperatureCelsius = (temperature - 273.15).toFixed(1); // 섭씨 변환 및 소수점 첫째 자리까지
-
   const weatherDescription = weatherInfo[0].description;
+  const Time = new Date().toLocaleString('ko-KR');
 
   return (
     <div>
@@ -46,6 +48,7 @@ const WeatherPage = () => {
       <p>지역: {name}</p>
       <p>현재 기온: {temperatureCelsius} °C</p>
       <p>날씨: {weatherDescription}</p>
+      <p>현재 시간: {Time}</p>
     </div>
   );
 };
