@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Navbar } from 'react-bootstrap';
+
 const MovieList = () => {
   const [movies, setMovies] = useState(null);
   const getMovies = async () => {
